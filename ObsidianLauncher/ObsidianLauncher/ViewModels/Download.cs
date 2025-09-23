@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace ObsidianLauncher.ViewModels
     }
     public static class Download
     {
-        private const string RepositoryOwner = "Xlinka";
+        private const string RepositoryOwner = "Custom-Extension-Works";
         private const string RepositoryName = "Project-Obsidian";
 
         public static async Task<DownloadResult> DownloadAndInstallObsidian(string ObsidianPath, string ObsidianDirectory)

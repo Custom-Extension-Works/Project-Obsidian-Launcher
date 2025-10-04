@@ -9,25 +9,40 @@ namespace ObsidianLauncher.ViewModels
 
         public string LauncherArguments { get; set; }
         public string CustomInstallDir { get; set; }
+        public bool IsDarkMode { get; set; } = true;
+        public string Language { get; set; } = "en"; // NEW
 
         public static Config LoadConfig()
         {
             try
             {
                 string json = File.ReadAllText(ConfigFilePath);
-                return JsonSerializer.Deserialize<Config>(json);
+                return JsonSerializer.Deserialize<Config>(json) ?? new Config();
             }
             catch (FileNotFoundException)
             {
-                // Return a new empty configuration if the file doesn't exist
+                return new Config();
+            }
+            catch
+            {
                 return new Config();
             }
         }
 
         public void SaveConfig()
         {
-            string json = JsonSerializer.Serialize(this);
-            File.WriteAllText(ConfigFilePath, json);
+            try
+            {
+                string json = JsonSerializer.Serialize(this, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+                File.WriteAllText(ConfigFilePath, json);
+            }
+            catch
+            {
+                // Silently fail if we can't save config
+            }
         }
     }
 }
